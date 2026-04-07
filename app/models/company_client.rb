@@ -1,9 +1,10 @@
 class CompanyClient < ApplicationRecord
   belongs_to :company
-  belongs_to :client
+  belongs_to :client, optional: true
   
   validates :name, presence: true
-  validates :client_id, presence: true
+  validates :client_id, presence: false
+  validates :phone, format: { with: /\A\d{10}\z/, message: "must be exactly 10 digits and contain only numbers" }, allow_blank: true
   validate :email_or_phone_must_be_present
   
   after_validation :generate_dummy_email, if: -> { email.blank? }

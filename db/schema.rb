@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_07_040305) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_07_093000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -32,7 +32,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_07_040305) do
   end
 
   create_table "company_clients", force: :cascade do |t|
-    t.bigint "client_id", null: false
+    t.bigint "client_id"
     t.bigint "company_id", null: false
     t.datetime "created_at", null: false
     t.string "email"
@@ -43,10 +43,24 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_07_040305) do
     t.index ["company_id"], name: "index_company_clients_on_company_id"
   end
 
+  create_table "orders", force: :cascade do |t|
+    t.decimal "amount", precision: 10, scale: 2, null: false
+    t.bigint "client_id", null: false
+    t.bigint "company_id", null: false
+    t.datetime "created_at", null: false
+    t.bigint "product_id", null: false
+    t.string "status", default: "pending", null: false
+    t.datetime "updated_at", null: false
+    t.index ["client_id"], name: "index_orders_on_client_id"
+    t.index ["company_id"], name: "index_orders_on_company_id"
+    t.index ["product_id"], name: "index_orders_on_product_id"
+  end
+
   create_table "products", force: :cascade do |t|
     t.bigint "company_id", null: false
     t.datetime "created_at", null: false
     t.string "name"
+    t.decimal "price", precision: 10, scale: 2, default: "0.0"
     t.datetime "updated_at", null: false
     t.index ["company_id"], name: "index_products_on_company_id"
   end
@@ -64,5 +78,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_07_040305) do
   add_foreign_key "companies", "users"
   add_foreign_key "company_clients", "clients"
   add_foreign_key "company_clients", "companies"
+  add_foreign_key "orders", "clients"
+  add_foreign_key "orders", "companies"
+  add_foreign_key "orders", "products"
   add_foreign_key "products", "companies"
 end

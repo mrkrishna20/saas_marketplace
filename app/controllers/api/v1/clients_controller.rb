@@ -6,7 +6,7 @@ class Api::V1::ClientsController < ApplicationController
     if @client.save
       render json: { 
         client: @client,
-        message: 'Global client registered successfully' 
+        message: 'Client registered successfully' 
       }, status: :created
     else
       render json: { 

@@ -18,6 +18,8 @@ Rails.application.routes.draw do
       post 'clients/register', to: 'clients#register'
       post 'clients/login', to: 'clients#login'
       get 'clients/companies', to: 'clients#companies'
+      get 'orders', to: 'orders#index'
+      post 'orders', to: 'orders#create'
     end
   end
 

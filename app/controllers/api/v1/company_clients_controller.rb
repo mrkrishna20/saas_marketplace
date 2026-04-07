@@ -11,14 +11,7 @@ class Api::V1::CompanyClientsController < ApplicationController
 
   # POST /api/v1/company_clients
   def create
-    client = Client.find_by(id: company_client_params[:client_id])
-    
-    if client.nil?
-      return render json: { 
-        error: 'Client not found' 
-      }, status: :not_found
-    end
-    
+    client = find_existing_client
     @company_client = @company.company_clients.new(
       client: client,
       name: company_client_params[:name],
@@ -29,13 +22,18 @@ class Api::V1::CompanyClientsController < ApplicationController
     if @company_client.save
       render json: { 
         company_client: @company_client,
-        message: 'Company client created successfully' 
+        client: client,
+        message: client.present? ? 'Existing client associated and company client created successfully' : 'Company client created successfully'
       }, status: :created
     else
       render json: { 
         errors: @company_client.errors.full_messages 
       }, status: :unprocessable_entity
     end
+  rescue ActiveRecord::RecordInvalid => e
+    render json: { 
+      error: e.message 
+    }, status: :unprocessable_entity
   end
 
   private
@@ -50,6 +48,14 @@ class Api::V1::CompanyClientsController < ApplicationController
   end
 
   def company_client_params
-    params.require(:company_client).permit(:client_id, :name, :email, :phone)
+    params.require(:company_client).permit(:name, :email, :phone)
+  end
+
+  def find_existing_client
+    if company_client_params[:email].present? || company_client_params[:phone].present?
+      Client.find_by('email = ? OR phone = ?', 
+                    company_client_params[:email], 
+                    company_client_params[:phone])
+    end
   end
 end
