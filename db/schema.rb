@@ -10,9 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_06_133347) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_07_040304) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "clients", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "email"
+    t.string "name"
+    t.string "password_digest"
+    t.string "phone"
+    t.datetime "updated_at", null: false
+  end
 
   create_table "companies", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -20,6 +29,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_06_133347) do
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
     t.index ["user_id"], name: "index_companies_on_user_id"
+  end
+
+  create_table "company_clients", force: :cascade do |t|
+    t.bigint "company_id", null: false
+    t.datetime "created_at", null: false
+    t.string "email"
+    t.string "name"
+    t.string "phone"
+    t.datetime "updated_at", null: false
+    t.index ["company_id"], name: "index_company_clients_on_company_id"
   end
 
   create_table "products", force: :cascade do |t|
@@ -41,5 +60,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_06_133347) do
   end
 
   add_foreign_key "companies", "users"
+  add_foreign_key "company_clients", "companies"
   add_foreign_key "products", "companies"
 end
