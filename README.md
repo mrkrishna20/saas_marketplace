@@ -1,5 +1,47 @@
 # SaaS Marketplace - Design Note
 
+## Setup
+
+### Prerequisites
+- Ruby 3.0+
+- Rails 8.1+
+- PostgreSQL database
+- Bundler gem
+
+### Installation Steps
+
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd saas_marketplace
+   ```
+
+2. **Install dependencies**
+   ```bash
+   bundle install
+   ```
+
+3. **Set up environment variables**
+   ```bash
+   cp .env.example .env
+   # Edit .env with your configuration
+   ```
+
+4. **Create and setup database**
+   ```bash
+   rails db:create
+   rails db:migrate
+   rails db:seed  # if seed data exists
+   ```
+
+5. **Start the Rails server**
+   ```bash
+   rails server
+   ```
+
+### Environment Variables
+Create a `.env` file in the root directory with:
+
 ## Overview
 
 This document outlines the architecture and key design decisions for the SaaS Marketplace application. The platform enables companies to offer products/services to clients who can browse and place orders across multiple companies.
