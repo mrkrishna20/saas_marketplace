@@ -11,7 +11,20 @@ class Api::V1::CompanyClientsController < ApplicationController
 
   # POST /api/v1/company_clients
   def create
-    @company_client = @company.company_clients.new(company_client_params)
+    client = Client.find_by(id: company_client_params[:client_id])
+    
+    if client.nil?
+      return render json: { 
+        error: 'Client not found' 
+      }, status: :not_found
+    end
+    
+    @company_client = @company.company_clients.new(
+      client: client,
+      name: company_client_params[:name],
+      email: company_client_params[:email],
+      phone: company_client_params[:phone]
+    )
     
     if @company_client.save
       render json: { 
@@ -37,6 +50,6 @@ class Api::V1::CompanyClientsController < ApplicationController
   end
 
   def company_client_params
-    params.require(:company_client).permit(:name, :email, :phone)
+    params.require(:company_client).permit(:client_id, :name, :email, :phone)
   end
 end

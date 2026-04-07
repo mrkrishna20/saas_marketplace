@@ -3,6 +3,7 @@ class CompanyClient < ApplicationRecord
   belongs_to :client
   
   validates :name, presence: true
+  validates :client_id, presence: true
   validate :email_or_phone_must_be_present
   
   after_validation :generate_dummy_email, if: -> { email.blank? }

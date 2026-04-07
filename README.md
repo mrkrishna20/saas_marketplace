@@ -1,24 +1,21 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+# User
+post /api/v1/users/signup User signup
+post /api/v1/sessions/login User login
+post /api/v1/sessions/logout User logout
 
-Things you may want to cover:
+# Company
+post /api/v1/companies Create company
 
-* Ruby version
+# Product
+get /api/v1/products Get products
+post /api/v1/products Create product
 
-* System dependencies
+# Company Client
+get /api/v1/company_clients Get company clients
+post /api/v1/company_clients Create company client
 
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+# Client
+post /api/v1/clients/register Client register
+post /api/v1/clients/login Client login

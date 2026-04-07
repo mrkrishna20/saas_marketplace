@@ -14,8 +14,10 @@ Rails.application.routes.draw do
       post 'companies', to: 'companies#create'
       get 'products', to: 'products#index'
       post 'products', to: 'products#create'
-      get 'company_clients', to: 'company_clients#index'
       post 'company_clients', to: 'company_clients#create'
+      post 'clients/register', to: 'clients#register'
+      post 'clients/login', to: 'clients#login'
+      get 'clients/companies', to: 'clients#companies'
     end
   end
 
